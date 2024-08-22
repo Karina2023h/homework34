@@ -1,0 +1,28 @@
+{
+  "destinations": [
+    {
+      "id": "1",
+      "name": "Paris"
+    },
+    {
+      "id": "2",
+      "name": "New York"
+    }
+  ],
+  "hotels": [
+    {
+      "id": "1",
+      "name": "Hotel Paris",
+      "destinationId": 1
+    },
+    {
+      "id": "2",
+      "name": "Hotel New York",
+      "destinationId": 2
+    },
+    {
+      "id": "999a",
+      "destination": "Paris"
+    }
+  ]
+}
