@@ -12,6 +12,10 @@ import {
   FormControl,
   FormHelperText,
 } from "@mui/material";
+import Slider from "react-slick";
+import "slick-carousel/slick/slick.css";
+import "slick-carousel/slick/slick-theme.css";
+import "./Main.css";
 
 const Main = () => {
   const [destinations, setDestinations] = useState([]);
@@ -52,13 +56,13 @@ const Main = () => {
   const validate = (values) => {
     const errors = {};
     if (!values.destination) {
-      errors.destination = "Обов'язково виберіть напрямок";
+      errors.destination = "Обов&apos;язково виберіть напрямок";
     }
     if (!values.checkin) {
-      errors.checkin = "Обов'язково виберіть дату заїзду";
+      errors.checkin = "Обов&apos;язково виберіть дату заїзду";
     }
     if (!values.checkout) {
-      errors.checkout = "Обов'язково виберіть дату виїзду";
+      errors.checkout = "Обов&apos;язково виберіть дату виїзду";
     }
     if (
       values.checkin &&
@@ -71,6 +75,35 @@ const Main = () => {
       errors.adults = "Кількість дорослих повинна бути більше 0";
     }
     return errors;
+  };
+
+  const sliderSettings = {
+    dots: true,
+    infinite: true,
+    speed: 500,
+    slidesToShow: 3,
+    slidesToScroll: 3,
+    autoplay: true,
+    autoplaySpeed: 3000,
+    responsive: [
+      {
+        breakpoint: 960,
+        settings: {
+          slidesToShow: 2,
+          slidesToScroll: 2,
+        },
+      },
+      {
+        breakpoint: 600,
+        settings: {
+          slidesToShow: 1,
+          slidesToScroll: 1,
+        },
+      },
+    ],
+    cssEase: "linear",
+    centerMode: false,
+    centerPadding: "0px",
   };
 
   return (
@@ -86,7 +119,7 @@ const Main = () => {
       <Form
         onSubmit={onSubmit}
         validate={validate}
-        render={({ handleSubmit, errors }) => (
+        render={({ handleSubmit }) => (
           <form onSubmit={handleSubmit}>
             <Grid container spacing={2}>
               <Grid item xs={12} sm={3}>
@@ -99,7 +132,7 @@ const Main = () => {
                           label="Напрямок"
                           select
                           required
-                          error={meta.touched && meta.error}
+                          error={meta.touched && Boolean(meta.error)}
                           helperText={meta.touched && meta.error}
                           variant="outlined"
                         >
@@ -131,7 +164,7 @@ const Main = () => {
                           type="date"
                           InputLabelProps={{ shrink: true }}
                           required
-                          error={meta.touched && meta.error}
+                          error={meta.touched && Boolean(meta.error)}
                           helperText={meta.touched && meta.error}
                           variant="outlined"
                         />
@@ -154,7 +187,7 @@ const Main = () => {
                           type="date"
                           InputLabelProps={{ shrink: true }}
                           required
-                          error={meta.touched && meta.error}
+                          error={meta.touched && Boolean(meta.error)}
                           helperText={meta.touched && meta.error}
                           variant="outlined"
                         />
@@ -176,7 +209,7 @@ const Main = () => {
                           label="Дорослі"
                           type="number"
                           required
-                          error={meta.touched && meta.error}
+                          error={meta.touched && Boolean(meta.error)}
                           helperText={meta.touched && meta.error}
                           variant="outlined"
                         />
@@ -198,7 +231,7 @@ const Main = () => {
                           label="Діти"
                           type="number"
                           variant="outlined"
-                          error={meta.touched && meta.error}
+                          error={meta.touched && Boolean(meta.error)}
                           helperText={meta.touched && meta.error}
                         />
                         {meta.touched && meta.error && (
@@ -230,6 +263,145 @@ const Main = () => {
           </form>
         )}
       />
+
+      {/* Додатковий контент під формою: Слайдер */}
+      <Box sx={{ mt: 7 }}>
+        <Typography
+          variant="h5"
+          component="h2"
+          sx={{ mb: 3, color: "#1976d2", fontSize: "1.5rem" }}
+        >
+          Найкращі готелі України
+        </Typography>
+        <Slider {...sliderSettings} className="slider">
+          <div className="slide-item">
+            <img
+              src="https://llaut-palace-playa-de-palma.hotelmix.com.ua/data/Photos/OriginalPhoto/12723/1272361/1272361780/Iberostar-Selection-Llaut-Palma-Adults-Only-Hotel-Playa-de-Palma-Exterior.JPEG"
+              alt="Готель 1"
+              className="slide-image"
+            />
+            <Typography
+              variant="h6"
+              component="div"
+              sx={{ mt: 1, fontSize: "1.2rem", fontWeight: "bold" }}
+            >
+              Готель Ла Пальма
+            </Typography>
+            <Typography
+              variant="body2"
+              color="text.secondary"
+              sx={{ fontSize: "1rem" }}
+            >
+              Вишуканий готель у центрі Києва з чудовим видом на місто.
+            </Typography>
+          </div>
+          <div className="slide-item">
+            <img
+              src="https://s.101hotelscdn.ru/uploads/image/hotel_image/3817/204159.jpg"
+              alt="Готель 2"
+              className="slide-image"
+            />
+            <Typography
+              variant="h6"
+              component="div"
+              sx={{ mt: 1, fontSize: "1.2rem", fontWeight: "bold" }}
+            >
+              Готель Севастополь
+            </Typography>
+            <Typography
+              variant="body2"
+              color="text.secondary"
+              sx={{ fontSize: "1rem" }}
+            >
+              Комфортабельний готель біля моря.
+            </Typography>
+          </div>
+          <div className="slide-item">
+            <img
+              src="https://gohotels.com.ua/images/gohotels/hotel/3437/343603/67337488883637782b5e57a1d89d16e5.jpg"
+              alt="Готель 3"
+              className="slide-image"
+            />
+            <Typography
+              variant="h6"
+              component="div"
+              sx={{ mt: 1, fontSize: "1.2rem", fontWeight: "bold" }}
+            >
+              Готель Вікторія
+            </Typography>
+            <Typography
+              variant="body2"
+              color="text.secondary"
+              sx={{ fontSize: "1rem" }}
+            >
+              Стильний готель з сучасним дизайном.
+            </Typography>
+          </div>
+          <div className="slide-item">
+            <img
+              src="https://hmpcj5dnx6uvbbom0nngb4tccjxvslvf.cdn-freehost.com.ua/images_hotel/hotel_146_YIdT.jpg"
+              alt="Готель 3"
+              className="slide-image"
+            />
+            <Typography
+              variant="h6"
+              component="div"
+              sx={{ mt: 1, fontSize: "1.2rem", fontWeight: "bold" }}
+            >
+              Готель в Одесі
+            </Typography>
+            <Typography
+              variant="body2"
+              color="text.secondary"
+              sx={{ fontSize: "1rem" }}
+            >
+              Стильний готель з сучасним дизайном.
+            </Typography>
+          </div>
+          <div className="slide-item">
+            <img
+              src="https://ukrainaincognita.com/wp-content/uploads/files/vin_got_fransua1_0.jpg"
+              alt="Готель 3"
+              className="slide-image"
+            />
+            <Typography
+              variant="h6"
+              component="div"
+              sx={{ mt: 1, fontSize: "1.2rem", fontWeight: "bold" }}
+            >
+              Готель Вінниця
+            </Typography>
+            <Typography
+              variant="body2"
+              color="text.secondary"
+              sx={{ fontSize: "1rem" }}
+            >
+              Стильний готель з сучасним дизайном.
+            </Typography>
+          </div>
+          <div className="slide-item">
+            <img
+              src="https://gohotels.com.ua/images/gohotels/hotel/6/562/2fd0c1ec264a5ce3c9c6b44fe9876234.jpg"
+              alt="Готель 3"
+              className="slide-image"
+            />
+            <Typography
+              variant="h6"
+              component="div"
+              sx={{ mt: 1, fontSize: "1.2rem", fontWeight: "bold" }}
+            >
+              Готель Миколаїв
+            </Typography>
+            <Typography
+              variant="body2"
+              color="text.secondary"
+              sx={{ fontSize: "1rem" }}
+            >
+              Стильний готель з сучасним дизайном.
+            </Typography>
+          </div>
+        </Slider>
+      </Box>
     </Box>
   );
 };

@@ -1,4 +1,3 @@
-// src/components/Hotels.js
 import React, { useState } from "react";
 import {
   Container,
@@ -17,14 +16,12 @@ import {
 } from "@mui/material";
 import { styled } from "@mui/system";
 import { useNavigate } from "react-router-dom";
-import { hotelsData } from "../data/hotelsData"; // Замість цього імпортуйте свій файл даних
+import { hotelsData } from "../data/hotelsData";
 
-// Функція для парсингу ціни з тексту
 const parsePrice = (priceStr) => {
   let priceValue = 0;
-  let currency = "UAH"; // Припустимо, що ми конвертуємо все в гривні
+  let currency = "UAH";
 
-  // Визначення валюти та вилучення числового значення
   if (priceStr.includes("доларів США")) {
     currency = "USD";
     priceStr = priceStr.replace("доларів США", "").trim();
@@ -39,24 +36,21 @@ const parsePrice = (priceStr) => {
     priceStr = priceStr.replace("фунтів стерлінгів", "").trim();
   }
 
-  // Витягування числового значення ціни
   const match = priceStr.match(/[\d,.]+/);
   if (match) {
     priceValue = parseFloat(match[0].replace(",", "."));
   }
 
-  // Конвертація ціни в гривні (фіксовані курси для прикладу)
   const exchangeRates = {
-    USD: 36, // Курс долара до гривні
-    EUR: 39, // Курс євро до гривні
-    GBP: 45, // Курс фунта стерлінгів до гривні
-    UAH: 1, // Гривня до гривні
+    USD: 36,
+    EUR: 39,
+    GBP: 45,
+    UAH: 1,
   };
 
   return priceValue * exchangeRates[currency];
 };
 
-// Стильований Card для красивішого вигляду
 const StyledCard = styled(Card)(({ theme }) => ({
   maxWidth: 345,
   marginBottom: theme.spacing(4),
@@ -73,38 +67,33 @@ const Hotels = () => {
 
   const navigate = useNavigate();
 
-  // Обробка змін у текстовому полі для пошуку
   const handleFilterChange = (event) => {
     setFilter(event.target.value);
   };
 
-  // Обробка змін у виборі рейтингу
   const handleRatingChange = (event) => {
     setRating(event.target.value);
   };
 
-  // Обробка змін у виборі ціни
   const handlePriceChange = (event) => {
     setPrice(event.target.value);
   };
 
-  // Перехід до детальної сторінки готелю
   const handleDetailsClick = (hotelName) => {
     navigate(`/hotel/${encodeURIComponent(hotelName)}`);
   };
 
-  // Фільтрація отелів
   const filteredHotels = hotelsData.filter((hotel) => {
-    const priceValue = parsePrice(hotel.price); // Отримання числового значення ціни
+    const priceValue = parsePrice(hotel.price);
 
     return (
       (rating ? hotel.rating.toString() === rating : true) &&
       (price === "low"
-        ? priceValue <= 1000 // Низька ціна
+        ? priceValue <= 1000
         : price === "medium"
-        ? priceValue > 1000 && priceValue <= 3000 // Середня ціна
+        ? priceValue > 1000 && priceValue <= 3000
         : price === "high"
-        ? priceValue > 3000 // Висока ціна
+        ? priceValue > 3000
         : true) &&
       (filter ? hotel.name.toLowerCase().includes(filter.toLowerCase()) : true)
     );
