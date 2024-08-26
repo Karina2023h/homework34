@@ -1,24 +1,28 @@
+// Header.js
 import React from "react";
 import { Link } from "react-router-dom";
 import { AppBar, Toolbar, Typography, Button, Box } from "@mui/material";
+import {
+  appBarStyles,
+  toolbarStyles,
+  buttonStyles,
+  boxStyles,
+} from "./HeaderStyles";
 
 const Header = () => {
   return (
-    <AppBar position="static" sx={{ backgroundColor: "#1976d2", boxShadow: 3 }}>
+    <AppBar position="static" sx={appBarStyles}>
       <Toolbar>
-        <Typography
-          variant="h6"
-          sx={{ flexGrow: 1, fontWeight: "bold", fontSize: "1.5rem" }}
-        >
+        <Typography variant="h6" sx={toolbarStyles}>
           Booking App
         </Typography>
-        <Box sx={{ display: "flex", alignItems: "center" }}>
+        <Box sx={boxStyles}>
           <Button
             color="inherit"
             component={Link}
             to="/"
             startIcon={<span>🏠</span>}
-            sx={{ marginRight: 3 }} // Додає відступ справа
+            sx={buttonStyles}
           >
             Home
           </Button>
@@ -27,7 +31,7 @@ const Header = () => {
             component={Link}
             to="/about"
             startIcon={<span>ℹ️</span>}
-            sx={{ marginRight: 3 }} // Додає відступ справа
+            sx={buttonStyles}
           >
             About
           </Button>

@@ -1,17 +1,15 @@
 import React, { useEffect } from "react";
 import { useParams, useNavigate } from "react-router-dom";
-import {
-  Container,
-  Typography,
-  Box,
-  Button,
-  Card,
-  CardMedia,
-  CardContent,
-  List,
-  ListItem,
-} from "@mui/material";
+import { CardContent, List, ListItem, Typography, Box } from "@mui/material"; // Імпорт Box тут
 import { hotelsData } from "../data/hotelsData";
+import {
+  StyledContainer,
+  BackButton,
+  HotelCard,
+  HotelImage,
+  HotelTitle,
+  SectionTitle,
+} from "./HotelDetailsStyles"; // Імпорт стилів з HotelDetailsStyles.js
 
 const HotelDetails = () => {
   const { hotelName } = useParams();
@@ -30,34 +28,33 @@ const HotelDetails = () => {
   // Якщо готель не знайдено
   if (!hotel) {
     return (
-      <Container sx={{ paddingTop: 4, paddingBottom: 4 }}>
-        <Typography variant="h4" align="center">
+      <StyledContainer>
+        <HotelTitle variant="h4" align="center">
           Готель не знайдено
-        </Typography>
-      </Container>
+        </HotelTitle>
+      </StyledContainer>
     );
   }
 
   return (
-    <Container sx={{ paddingTop: 4, paddingBottom: 4 }}>
-      <Box sx={{ marginBottom: 4 }}>
-        <Button variant="contained" onClick={() => navigate(-1)}>
+    <StyledContainer>
+      <Box>
+        <BackButton variant="contained" onClick={() => navigate(-1)}>
           Назад
-        </Button>
+        </BackButton>
       </Box>
 
-      <Card sx={{ mb: 4, borderRadius: 2, boxShadow: 3 }}>
-        <CardMedia
+      <HotelCard>
+        <HotelImage
           component="img"
           height="400"
           image={hotel.image}
           alt={hotel.name}
-          sx={{ objectFit: "cover" }}
         />
         <CardContent>
-          <Typography variant="h3" gutterBottom>
+          <HotelTitle variant="h3" gutterBottom>
             {hotel.name}
-          </Typography>
+          </HotelTitle>
           <Typography variant="h6" color="text.secondary">
             Рейтинг: {hotel.rating} зірок
           </Typography>
@@ -65,33 +62,33 @@ const HotelDetails = () => {
             Ціна: {hotel.price}
           </Typography>
         </CardContent>
-      </Card>
+      </HotelCard>
 
-      <Typography variant="h5" gutterBottom sx={{ marginTop: 2 }}>
+      <SectionTitle variant="h5" gutterBottom>
         Опис
-      </Typography>
+      </SectionTitle>
       <Typography variant="body1" paragraph>
         {hotel.description}
       </Typography>
 
-      <Typography variant="h6" gutterBottom>
+      <SectionTitle variant="h6" gutterBottom>
         Типи номерів:
-      </Typography>
+      </SectionTitle>
       <List>
         {hotel.roomTypes.map((type, index) => (
           <ListItem key={index}>{type}</ListItem>
         ))}
       </List>
 
-      <Typography variant="h6" gutterBottom>
+      <SectionTitle variant="h6" gutterBottom>
         Зручності:
-      </Typography>
+      </SectionTitle>
       <List>
         {hotel.amenities.map((amenity, index) => (
           <ListItem key={index}>{amenity}</ListItem>
         ))}
       </List>
-    </Container>
+    </StyledContainer>
   );
 };
 

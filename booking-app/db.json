@@ -262,6 +262,20 @@
       "checkin": "2024-08-17",
       "checkout": "2024-09-03",
       "adults": "1"
+    },
+    {
+      "id": "f27a",
+      "destination": "New York",
+      "checkin": "2024-08-27",
+      "checkout": "2024-08-28",
+      "adults": "1"
+    },
+    {
+      "id": "ed39",
+      "checkout": "2024-08-27",
+      "adults": "1",
+      "checkin": "2024-08-26",
+      "destination": "Singapore"
     }
   ],
   "bookings": [

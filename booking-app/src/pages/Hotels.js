@@ -1,22 +1,24 @@
 import React, { useState } from "react";
 import {
-  Container,
   Typography,
   Grid,
-  Card,
   CardContent,
   CardMedia,
   Button,
-  TextField,
-  Box,
   Select,
   MenuItem,
-  FormControl,
   InputLabel,
+  Box, // Add Box import here
 } from "@mui/material";
-import { styled } from "@mui/system";
 import { useNavigate } from "react-router-dom";
 import { hotelsData } from "../data/hotelsData";
+import {
+  StyledContainer,
+  StyledCard,
+  StyledBox,
+  StyledFormControl,
+  StyledTextField,
+} from "./HotelsStyles"; // Importing styled components
 
 const parsePrice = (priceStr) => {
   let priceValue = 0;
@@ -50,15 +52,6 @@ const parsePrice = (priceStr) => {
 
   return priceValue * exchangeRates[currency];
 };
-
-const StyledCard = styled(Card)(({ theme }) => ({
-  maxWidth: 345,
-  marginBottom: theme.spacing(4),
-  borderRadius: theme.shape?.borderRadius || 8,
-  boxShadow:
-    theme.shadows?.[3] ||
-    "0px 3px 1px -2px rgba(0,0,0,0.2), 0px 2px 2px 0px rgba(0,0,0,0.14), 0px 1px 5px 0px rgba(0,0,0,0.12)",
-}));
 
 const Hotels = () => {
   const [filter, setFilter] = useState("");
@@ -100,26 +93,19 @@ const Hotels = () => {
   });
 
   return (
-    <Container sx={{ paddingTop: 4, paddingBottom: 4 }}>
+    <StyledContainer>
       <Typography variant="h3" gutterBottom align="center">
         Готелі
       </Typography>
 
-      <Box
-        sx={{
-          display: "flex",
-          justifyContent: "space-between",
-          marginBottom: 4,
-        }}
-      >
-        <TextField
+      <StyledBox>
+        <StyledTextField
           label="Пошук"
           variant="outlined"
           value={filter}
           onChange={handleFilterChange}
-          sx={{ marginRight: 2, flexGrow: 1 }}
         />
-        <FormControl sx={{ minWidth: 120, marginRight: 2 }}>
+        <StyledFormControl>
           <InputLabel>Рейтинг</InputLabel>
           <Select value={rating} onChange={handleRatingChange} label="Рейтинг">
             <MenuItem value="">Всі</MenuItem>
@@ -127,8 +113,8 @@ const Hotels = () => {
             <MenuItem value="4">4 зірки</MenuItem>
             <MenuItem value="3">3 зірки</MenuItem>
           </Select>
-        </FormControl>
-        <FormControl sx={{ minWidth: 120 }}>
+        </StyledFormControl>
+        <StyledFormControl>
           <InputLabel>Ціна</InputLabel>
           <Select value={price} onChange={handlePriceChange} label="Ціна">
             <MenuItem value="">Всі</MenuItem>
@@ -136,8 +122,8 @@ const Hotels = () => {
             <MenuItem value="medium">Середня</MenuItem>
             <MenuItem value="high">Висока</MenuItem>
           </Select>
-        </FormControl>
-      </Box>
+        </StyledFormControl>
+      </StyledBox>
 
       <Grid container spacing={4}>
         {filteredHotels.map((hotel, index) => (
@@ -170,7 +156,7 @@ const Hotels = () => {
           </Grid>
         ))}
       </Grid>
-    </Container>
+    </StyledContainer>
   );
 };
 

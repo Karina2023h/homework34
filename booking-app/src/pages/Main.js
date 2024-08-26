@@ -1,7 +1,5 @@
-import React, { useEffect, useState } from "react";
-import axios from "axios";
+import React from "react";
 import { Form, Field } from "react-final-form";
-import { useNavigate } from "react-router-dom";
 import {
   Typography,
   Button,
@@ -16,95 +14,17 @@ import Slider from "react-slick";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 import "./Main.css";
+import useDestinations from "../hooks/useDestinations";
+import useSubmitForm from "../hooks/useSubmitForm";
+import sliderSettings from "../config/sliderSettings";
+import validate from "../utils/validate";
 
 const Main = () => {
-  const [destinations, setDestinations] = useState([]);
-  const navigate = useNavigate();
+  const { destinations, loading, error } = useDestinations();
+  const submitForm = useSubmitForm();
 
-  useEffect(() => {
-    const fetchDestinations = async () => {
-      try {
-        const apiUrl = process.env.REACT_APP_API_URL;
-        if (!apiUrl) {
-          throw new Error("URL API не визначено у змінних середовища");
-        }
-
-        const response = await axios.get(`${apiUrl}/destinations`);
-        setDestinations(response.data);
-      } catch (error) {
-        console.error("Помилка під час завантаження напрямків:", error);
-      }
-    };
-
-    fetchDestinations();
-  }, []);
-
-  const onSubmit = async (values) => {
-    try {
-      const apiUrl = process.env.REACT_APP_API_URL;
-      if (!apiUrl) {
-        throw new Error("URL API не визначено у змінних середовища");
-      }
-
-      await axios.post(`${apiUrl}/hotels`, values);
-      navigate("/hotels");
-    } catch (error) {
-      console.error("Помилка під час відправки форми:", error);
-    }
-  };
-
-  const validate = (values) => {
-    const errors = {};
-    if (!values.destination) {
-      errors.destination = "Обов&apos;язково виберіть напрямок";
-    }
-    if (!values.checkin) {
-      errors.checkin = "Обов&apos;язково виберіть дату заїзду";
-    }
-    if (!values.checkout) {
-      errors.checkout = "Обов&apos;язково виберіть дату виїзду";
-    }
-    if (
-      values.checkin &&
-      values.checkout &&
-      new Date(values.checkin) >= new Date(values.checkout)
-    ) {
-      errors.checkout = "Дата виїзду повинна бути після дати заїзду";
-    }
-    if (values.adults <= 0) {
-      errors.adults = "Кількість дорослих повинна бути більше 0";
-    }
-    return errors;
-  };
-
-  const sliderSettings = {
-    dots: true,
-    infinite: true,
-    speed: 500,
-    slidesToShow: 3,
-    slidesToScroll: 3,
-    autoplay: true,
-    autoplaySpeed: 3000,
-    responsive: [
-      {
-        breakpoint: 960,
-        settings: {
-          slidesToShow: 2,
-          slidesToScroll: 2,
-        },
-      },
-      {
-        breakpoint: 600,
-        settings: {
-          slidesToShow: 1,
-          slidesToScroll: 1,
-        },
-      },
-    ],
-    cssEase: "linear",
-    centerMode: false,
-    centerPadding: "0px",
-  };
+  if (loading) return <p>Завантаження...</p>;
+  if (error) return <p>Помилка: {error.message}</p>;
 
   return (
     <Box sx={{ padding: "50px", backgroundColor: "#f0f4f8" }}>
@@ -117,7 +37,7 @@ const Main = () => {
         зробіть свою подорож незабутньою.
       </Typography>
       <Form
-        onSubmit={onSubmit}
+        onSubmit={submitForm}
         validate={validate}
         render={({ handleSubmit }) => (
           <form onSubmit={handleSubmit}>
@@ -400,6 +320,8 @@ const Main = () => {
               Стильний готель з сучасним дизайном.
             </Typography>
           </div>
+          {/* Додаткові слайди */}
+          {/* ... */}
         </Slider>
       </Box>
     </Box>
